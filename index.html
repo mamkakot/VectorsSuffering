@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src='https://cdn.plot.ly/plotly-2.27.0.min.js'></script>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://cdn.zingchart.com/zingchart.min.js"></script>
+    <meta charset="UTF-8">
+    <title>fuck u</title>
+</head>
+<body>
+<div class="parent">
+    <div id='myDiv' class="graph"></div>
+    <div>
+        <div>arst</div>
+        <div>arst</div>
+        <div>arst</div>
+        <div>arst</div>
+        <div>arst</div>
+        <div id="app">
+
+            <button @click="x1++">{{ x1 }}</button>
+            <button @click="increment">inc</button>
+        </div>
+    </div>
+</div>
+</body>
+
+<script>
+
+
+    const {createApp, ref, onMounted} = Vue
+
+    createApp({
+        setup() {
+            const x1 = ref(0)
+            const arr1 = ref([x1.value, 2, 3, 4])
+            const trace1 = ref({
+                x: arr1.value,
+                y: [10, 15, 13, 17],
+                type: 'scatter',
+                mode: 'markers',
+                marker: {
+                    color: 'blue',
+                    symbol: 'star-triangle-up'
+                },
+            });
+            var layout = {
+                autosize: true,
+                // xaxis: {domain: [0, 0.45]},
+                annotations: [
+                    {
+                        x: x1.value,
+                        y: 5,
+                        axref: 'x',
+                        ayref: 'y',
+                        showarrow: true,
+                        arrowhead: 2,
+                        ax: 20,
+                        ay: 30
+                    }
+                ]
+            };
+
+            var data = [trace1];
+
+            function increment() {
+                trace1.value = {
+                    x: arr1.value,
+                    y: [10, 15, 13, 17],
+                    type: 'scatter',
+                    mode: 'markers',
+                    marker: {
+                        color: 'blue',
+                        symbol: 'star-triangle-up'
+                    },
+                }
+                var layout = {
+                    autosize: true,
+                    // xaxis: {domain: [0, 0.45]},
+                    annotations: [
+                        {
+                            x: x1.value,
+                            y: 5,
+                            axref: 'x',
+                            ayref: 'y',
+                            showarrow: true,
+                            arrowhead: 2,
+                            ax: 20,
+                            ay: 30
+                        }
+                    ]
+                };
+                Plotly.newPlot('myDiv', data, layout, {responsive: true});
+            }
+
+            onMounted(() => {
+                console.log(`the component is now mounted.`)
+
+
+                Plotly.newPlot('myDiv', data, layout, {responsive: true});
+                console.log(`the graph is now mounted.`)
+            })
+
+            return {
+                x1, increment
+            }
+        },
+
+    }).mount('#app')
+</script>
+
+<style>
+    .parent {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .graph {
+        width: 60%;
+        display: block;
+        overflow: auto;
+    }
+</style>
+</html>
